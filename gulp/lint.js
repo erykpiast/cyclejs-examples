@@ -12,7 +12,7 @@ var config = require('./config');
 
 module.exports = function lintTask(cb, files) {
     var deferred = q.defer();
-    
+
     gutil.log('linting is starting...');
 
     gulp.src(files || config.src.js.files)
@@ -21,14 +21,20 @@ module.exports = function lintTask(cb, files) {
         .pipe(jshint.reporter('fail'))
         .on('error', function(err) {
             gutil.log('linter error:', err.message);
-            
+
             deferred.reject(err);
         })
         .on('finish', function(e) {
             gutil.log('linting finished!');
-            
+
             deferred.resolve(e);
         });
-        
-    return deferred.promise;
+
+    return deferred.promise.then(function(e) {
+        if('function' === typeof cb) {
+            cb(e);
+        }
+
+        return e;
+    });
 };
