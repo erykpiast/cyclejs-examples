@@ -33,16 +33,18 @@ module.exports = function buildJsTask(before) {
         }
 
         return before(changedFiles)
-            .pipe(bundler.bundle())
-            .on('error', function(err) {
-                gutil.log('Browserify error:', err.message);
-            })
-            .pipe(source(config.dist.js.bundleName))
-            .pipe(gulp.dest(config.dist.js.dir))
-            .on('finish', function() {
-                gutil.log('building finished!');
-            })
-            .pipe(connect.reload());
+            .then(function() {
+                return bundler.bundle()
+                .on('error', function(err) {
+                    gutil.log('Browserify error:', err.message);
+                })
+                .pipe(source(config.dist.js.bundleName))
+                .pipe(gulp.dest(config.dist.js.dir))
+                .on('finish', function() {
+                    gutil.log('building finished!');
+                })
+                .pipe(connect.reload());
+            });
     };
 
 

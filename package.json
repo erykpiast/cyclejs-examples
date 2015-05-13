@@ -48,6 +48,7 @@
     "karma-phantomjs-launcher": "~0.1",
     "mocha": "~2.2",
     "proxyquireify": "~2.0",
+    "q": "~1.4",
     "run-sequence": "~1.0",
     "vinyl-source-stream": "~1.1",
     "watchify": "~3.2"

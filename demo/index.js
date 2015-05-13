@@ -1,3 +1,3 @@
-import fileManager from '../src/js/file-manager';
+import fileManager from '../src/file-manager/js';
 
 fileManager(document.body);

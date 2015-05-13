@@ -45,19 +45,21 @@ module.exports = function buildTestsTask(before, after) {
             building = true;
 
             return before(changedFiles)
-                .pipe(bundler.bundle())
-                .pipe(source(config.test.bundle.name))
-                .pipe(gulp.dest(config.test.bundle.dir))
-                .pipe(after(changedFiles))
-                .on('error', function(err) {
-                    building = false;
-                    
-                    gutil.log('Building error', err.message);
-                })
-                .on('end', function() {
-                    building = false;
-                    
-                    gutil.log('Building finished!');
+                .then(function() {
+                    return bundler.bundle()
+                    .pipe(source(config.test.bundle.name))
+                    .pipe(gulp.dest(config.test.bundle.dir))
+                    .pipe(after(changedFiles))
+                    .on('error', function(err) {
+                        building = false;
+                        
+                        gutil.log('Building error', err.message);
+                    })
+                    .on('end', function() {
+                        building = false;
+                        
+                        gutil.log('Building finished!');
+                    });
                 });
         } else {
             return null;
