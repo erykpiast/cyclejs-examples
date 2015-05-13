@@ -1,0 +1,55 @@
+{
+  "name": "cyclejs-examples",
+  "version": "0.0.0",
+  "description": "Example web applications built with Cycle.js.",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/erykpiast/cyclejs-examples.git"
+  },
+  "keywords": [
+    "cyclejs",
+    "example"
+  ],
+  "author": "Eryk Napierała <eryk.piast@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erykpiast/cyclejs-examples/issues"
+  },
+  "homepage": "https://github.com/erykpiast/cyclejs-examples",
+  "dependencies": {
+    "cyclejs": "~0.21",
+    "ramda": "~0.14"
+  },
+  "devDependencies": {
+    "babelify": "~6.1",
+    "brfs": "~1.4",
+    "browserify": "~10.0",
+    "chai": "~2.3",
+    "cyclejs": "~0.21",
+    "extend": "~2.0",
+    "glob": "~5.0",
+    "gulp": "~3.8",
+    "gulp-autoprefixer": "~2.1",
+    "gulp-connect": "~2.2",
+    "gulp-copy": "~0.0",
+    "gulp-jshint": "~1.10",
+    "gulp-karma": "~0.0",
+    "gulp-sass": "~2.0",
+    "gulp-sourcemaps": "~1.5",
+    "gulp-util": "~3.0",
+    "jshint-stylish": "~1.0",
+    "karma": "~0.12",
+    "karma-chrome-launcher": "~0.1",
+    "karma-mocha": "~0.1",
+    "karma-mocha-reporter": "~1.0",
+    "karma-phantomjs-launcher": "~0.1",
+    "mocha": "~2.2",
+    "proxyquireify": "~2.0",
+    "run-sequence": "~1.0",
+    "vinyl-source-stream": "~1.1",
+    "watchify": "~3.2"
+  }
+}
