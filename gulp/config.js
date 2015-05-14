@@ -7,7 +7,8 @@ module.exports = {
             main: './demo/index.js'
         },
         css: {
-            files: './src/*/css/**/*.scss'
+            index: './src/*/css/index.scss',
+            files: './src/*/css/*.scss'
         }
     },
     dist: {
@@ -17,16 +18,17 @@ module.exports = {
             bundleName: 'demo.bundle.js'
         },
         css: {
-            dir: './demo'
+            dir: './demo',
+            bundleName: 'demo.index.css'
         }
     },
     test: {
         files: './src/*/js/**/spec/**/*.spec.js',
         bundle: {
-            name: 'tests.js',
-            dir: './dist'
+            dir: './dist',
+            name: 'tests.js'
         },
-        runtimeFiles: [ './test/phantomjs-extensions.js' ],
+        runtime: './test/phantomjs-extensions.js',
         runnerConfig: './karma.conf.js'
     }
 }

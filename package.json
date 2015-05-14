@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Example web applications built with Cycle.js.",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test:once"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
     "extend": "~2.0",
     "glob": "~5.0",
     "gulp": "~3.8",
+    "gulp-add-src": "~0.2",
     "gulp-autoprefixer": "~2.1",
+    "gulp-concat": "~2.5",
     "gulp-connect": "~2.2",
     "gulp-copy": "~0.0",
     "gulp-jshint": "~1.10",
@@ -46,10 +48,11 @@
     "karma-mocha": "~0.1",
     "karma-mocha-reporter": "~1.0",
     "karma-phantomjs-launcher": "~0.1",
+    "merge-stream": "~0.1",
     "mocha": "~2.2",
+    "multipipe": "~0.1",
     "proxyquireify": "~2.0",
-    "q": "~1.4",
-    "run-sequence": "~1.0",
+    "vinyl-buffer": "~1.0",
     "vinyl-source-stream": "~1.1",
     "watchify": "~3.2"
   }
