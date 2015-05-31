@@ -8,7 +8,7 @@ module.exports = {
         },
         css: {
             index: './src/*/css/index.scss',
-            files: './src/*/css/*.scss'
+            files: './src/*/css/**/*.scss'
         }
     },
     dist: {

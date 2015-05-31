@@ -20,8 +20,13 @@
   },
   "homepage": "https://github.com/erykpiast/cyclejs-examples",
   "dependencies": {
-    "cyclejs": "~0.21",
-    "ramda": "~0.14"
+    "bem-class": "^0.4.4",
+    "core-js": "^0.9.11",
+    "cyclejs": "^0.22.0",
+    "cyclejs-group": "^0.5.0",
+    "cyclejs-stream": "^0.3.2",
+    "ramda": "~0.14",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babelify": "~6.1",
@@ -39,7 +44,6 @@
     "gulp-copy": "~0.0",
     "gulp-jshint": "~1.10",
     "gulp-karma": "~0.0",
-    "gulp-sass": "~2.0",
     "gulp-sourcemaps": "~1.5",
     "gulp-util": "~3.0",
     "jshint-stylish": "~1.0",

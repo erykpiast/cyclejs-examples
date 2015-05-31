@@ -21,7 +21,8 @@ var buildCssTask = require('./css');
 function createBundler(watch) {
     var bundler = browserify(config.src.js.main, extend({
         debug: true,
-        entry: true
+        entry: true,
+        extensions: ['.js', '.json', '.es6']
     }, watch ? watchify.args : { }));
     
     if(watch) {
@@ -29,12 +30,12 @@ function createBundler(watch) {
     }
 
     bundler = bundler
-    .transform(brfs)
     .transform(babelify.configure({
         only: /^(?!.*node_modules)+.+\.js$/,
         sourceMap: 'inline',
         sourceMapRelative: __dirname
-    }));
+    }))
+    .transform(brfs);
     
     if(watch) {
         bundler = bundler.on('update', watch);

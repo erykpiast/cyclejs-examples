@@ -1,8 +1,13 @@
+@import '_components/selectable-list.scss';
+
 html {
     height: 100%;
 }
 
 body {
+    font: {
+        family: sans-serif;
+    };
     margin: 0;
     min-height: 100%;
 }

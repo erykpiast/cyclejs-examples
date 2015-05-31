@@ -13,10 +13,13 @@ var config = require('./config');
 
 module.exports = function buildCssTask(watch) {
     if(watch === true) {
+        gutil.log('Changes in CSS will be watched!');
+
         gulp.watch(config.src.css.files, buildCssTask);
     }
+
     gutil.log('Building CSS started!');
-    
+
     return gulp.src(config.src.css.index)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))

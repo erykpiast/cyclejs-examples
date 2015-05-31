@@ -1,0 +1,21 @@
+$list-row-darker: #EEE;
+$list-row-lighter: #FFF;
+
+.selectable-list {
+    list-style-type: none;
+
+    &__option {
+        &:nth-child(even) {
+            background-color: $list-row-lighter;
+        }
+
+        &:nth-child(odd) {
+            background-color: $list-row-darker;
+        }
+
+        & > * {
+            display: inline-block;
+        }
+    }
+
+}
