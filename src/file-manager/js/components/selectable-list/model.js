@@ -1,12 +1,10 @@
-import { Rx } from 'cyclejs';
 
 
 export default {
     options$: (children$, change$, selectAll$, options$) =>
-        Rx.Observable.combineLatest(
+        change$.withLatestFrom(
             options$,
-            change$,
-            (options, change) =>
+            (change, options) =>
                 options.map(({ element, id, selected }) => ({
                     id,
                     element,
@@ -25,16 +23,15 @@ export default {
             )
         )
         .merge(
-            selectAll$
-                .withLatestFrom(
-                    options$,
-                    (selected, options) =>
-                        options.map(({ element, id }) => ({
-                            id,
-                            element,
-                            selected
-                        }))
-                )
+            selectAll$.withLatestFrom(
+                options$,
+                (selected, options) =>
+                    options.map(({ element, id }) => ({
+                        id,
+                        element,
+                        selected
+                    }))
+            )
         )
         .distinctUntilChanged((options) =>
             JSON.stringify(options.map(({ id, selected }) => ({

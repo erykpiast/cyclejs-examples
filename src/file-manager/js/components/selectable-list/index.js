@@ -47,7 +47,8 @@ export default function createSelectableListElement(tagName) {
                                 className: listClass.element('checkbox').toString(),
                                 type: 'checkbox',
                                 checked: selected,
-                                id: id
+                                id: id,
+                                key: id
                             }),
                             element
                         ])
