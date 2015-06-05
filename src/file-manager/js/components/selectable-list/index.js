@@ -1,52 +1,68 @@
 import { registerCustomElement, h, Rx } from 'cyclejs';
-import { block } from 'bem-class';
 import createGroup from 'cyclejs-group';
 
 import modelDefinition from './model';
 
+// function log(...args) {
+//     return console.log.bind(console, ...args);
+// }
+
 
 export default function createSelectableListElement(tagName) {
-    let listClass = block(tagName);
+    let listClass = tagName;
+    let containerClass = listClass + '__container';
+    let optionClass = listClass + '__option';
+    let optionCheckboxClass = listClass + '__option__checkbox';
+    let selectedOptionClass = optionClass + '--selected';
+    let selectAllClass = 'select-all';
 
     registerCustomElement(tagName, (interactions, properties) => {
         let model = createGroup(modelDefinition);
 
         model.inject({
-            children$: properties.get('children'),
-            change$: interactions.get(`.${listClass.element('checkbox')}`, 'change')
+            children$: properties.get('children')
+                .map((children) =>
+                    children.map((child) => ({
+                        id: child.properties.id,
+                        selected: child.properties.selected,
+                        element: child
+                    }))
+                ),
+            change$: interactions.get(`.${optionCheckboxClass}`, 'change')
                 .map(({ target }) => ({
                     id: target.id,
                     selected: target.checked
                 })),
-            selectAll$: interactions.get(`.${block('select-all')}`, 'change')
+            selectAll$: interactions.get(`.${selectAllClass}`, 'change')
                 .map(({ target }) => target.checked)
         }, model);
 
         let vtree$ = Rx.Observable.combineLatest(
             model.options$,
             model.allSelected$,
-            (options, allSelected) =>
+            properties.get('disabled'),
+            (options, allSelected, disabled) =>
                 h('div', {
-                    className: listClass.element('container')
+                    className: `${containerClass}`
                 }, [
                     h('input', {
-                        className: block('select-all').toString(),
+                        className: `${selectAllClass}`,
                         type: 'checkbox',
-                        checked: allSelected
+                        checked: allSelected,
+                        disabled: disabled
                     }),
                     h('ul', {
-                        className: listClass.toString()
+                        className: `${listClass}`
                     }, options.map(({ id, selected, element }) =>
                         h('li', {
                             key: id,
-                            className: listClass.element('option').modifier({
-                                selected
-                            }).toString()
+                            className: selected ? selectedOptionClass : optionClass
                         }, [
                             h('input', {
-                                className: listClass.element('checkbox').toString(),
+                                className: `${optionCheckboxClass}`,
                                 type: 'checkbox',
                                 checked: selected,
+                                disabled: disabled,
                                 id: id,
                                 key: id
                             }),

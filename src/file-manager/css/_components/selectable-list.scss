@@ -4,7 +4,9 @@ $list-row-lighter: #FFF;
 .selectable-list {
     list-style-type: none;
 
-    &__option {
+    &__option,
+    &__option--selected {
+        
         &:nth-child(even) {
             background-color: $list-row-lighter;
         }

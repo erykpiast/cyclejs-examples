@@ -14,15 +14,6 @@ export default {
                 }))
         )
         .merge(
-            children$.map((children) =>
-                children.map((child) => ({
-                    id: child.properties.id,
-                    selected: child.properties.selected,
-                    element: child
-                }))
-            )
-        )
-        .merge(
             selectAll$.withLatestFrom(
                 options$,
                 (selected, options) =>
@@ -37,7 +28,10 @@ export default {
             JSON.stringify(options.map(({ id, selected }) => ({
                 id, selected
             })))
-        ),
+        )
+        // distinctUntilChanged must be above
+        // change of children has to force rerender, even if selection wasn't changed
+        .merge(children$),
     selectedOptions$: (options$) =>
         options$
             .map((options) =>
