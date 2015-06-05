@@ -1,7 +1,45 @@
 .files-list-item {
+    $buttons-space: .5em;
+    $input-offset: 4px; // to make text indent equal for label end rename form
     
-    .file-rename-form {
+    height: 2em;
+    
+    &:before,
+    &__rename-form,
+    &__label,
+    &__button--rename-cancel {
         display: inline-block;
+        vertical-align: middle;
+    }
+    
+    &:before {
+        content: "";
+        height: 100%;
+        // margin-left: -0.625em;
+    }
+    
+    &__label {
+        // make text indent equal for label end rename form
+        margin-left: $input-offset;
+    }
+    
+    &__rename-form {
+        .file-rename-form__input {
+            $border-width: 2px;
+            
+            // make text indent equal for label end rename form
+            margin-left: 0;
+            border-width: $border-width;
+            padding-left: $input-offset - $border-width;
+            
+            margin-right: $buttons-space; // pull buttons
+            
+            max-width: 8em;
+        }
+    }
+    
+    &__button--rename-cancel {
+        margin-left: $buttons-space;
     }
     
 }

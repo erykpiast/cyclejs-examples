@@ -3,6 +3,8 @@ $list-row-lighter: #FFF;
 
 .selectable-list {
     list-style-type: none;
+    padding: 0;
+    margin: 0;
 
     &__option,
     &__option--selected {
@@ -17,6 +19,7 @@ $list-row-lighter: #FFF;
 
         & > * {
             display: inline-block;
+            vertical-align: middle;
         }
     }
 

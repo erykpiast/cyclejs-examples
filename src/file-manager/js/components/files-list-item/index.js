@@ -9,6 +9,7 @@ fileRenameForm('file-rename-form');
 
 export default function createFilesListItemElement(tagName) {
     let itemClass = tagName;
+    let labelClass = itemClass + '__label';
     let renameFormClass = itemClass + '__rename-form';
     let buttonClass = itemClass + '__button';
     let renameCancelButtonClass = buttonClass + '--rename-cancel';
@@ -40,7 +41,9 @@ export default function createFilesListItemElement(tagName) {
                     h('button', {
                         className: `${renameCancelButtonClass}`
                     }, 'Cancel')
-                ] : fileName)
+                ] : h('span', {
+                    className: `${labelClass}`
+                }, fileName))
         );
 
         return {
