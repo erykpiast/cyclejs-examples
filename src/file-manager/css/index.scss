@@ -1,6 +1,8 @@
+@import '_vars.scss';
 @import '_components/selectable-list.scss';
 @import '_components/files-list-item.scss';
 @import '_components/file-rename-form.scss';
+@import '_components/confirm.scss';
 
 html {
     height: 100%;
@@ -24,4 +26,13 @@ body {
 .files {
     
     
+}
+
+.removal-confirmation {
+    background-color: map-get($color, 'background');
+    
+    &__message {
+        margin-top: 0;
+        white-space: pre-wrap;
+    }
 }

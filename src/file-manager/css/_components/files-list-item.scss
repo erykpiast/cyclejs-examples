@@ -15,7 +15,6 @@
     &:before {
         content: "";
         height: 100%;
-        // margin-left: -0.625em;
     }
     
     &__label {
@@ -40,6 +39,7 @@
     
     &__button--rename-cancel {
         margin-left: $buttons-space;
+        margin-top: 1.5px; // accidental offset
     }
     
 }

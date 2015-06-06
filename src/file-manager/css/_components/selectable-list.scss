@@ -1,6 +1,3 @@
-$list-row-darker: #EEE;
-$list-row-lighter: #FFF;
-
 .selectable-list {
     list-style-type: none;
     padding: 0;
@@ -10,11 +7,11 @@ $list-row-lighter: #FFF;
     &__option--selected {
         
         &:nth-child(even) {
-            background-color: $list-row-lighter;
+            background-color: map-get($color, "row-even");
         }
 
         &:nth-child(odd) {
-            background-color: $list-row-darker;
+            background-color: map-get($color, "row-odd");
         }
 
         & > * {

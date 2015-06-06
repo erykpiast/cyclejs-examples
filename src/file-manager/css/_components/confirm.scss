@@ -1,0 +1,33 @@
+.confirmation-popup {
+    
+    border: 1px solid #222;
+    box-shadow: 0 0 0 2000px rgba(#222, 0.5);
+    
+    // centering
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX( -50% ) translateY( -50% );
+    
+    box-sizing: border-box;
+    width: 40%;
+    max-width: 400px;
+    padding: 1em;
+    
+    z-index: map-get($zIndex, "popup");
+    
+    
+    &__content {
+        min-height: 100px;
+    }
+    
+    &__nav {
+        text-align: center;
+    }
+    
+    &__button--confirm,
+    &__button--cancel {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}

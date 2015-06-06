@@ -1,14 +1,17 @@
 import { Rx, h, applyToDOM } from 'cyclejs';
 import createGroup from 'cyclejs-group';
 import { v1 as uuid } from 'uuid';
+import dedent from 'dedent';
 
 import modelDefinition from './model';
 
+import confirm from './components/confirm';
 import selectableListComponent from './components/selectable-list';
 import filesListItem from './components/files-list-item';
 
 selectableListComponent('selectable-list');
 filesListItem('files-list-item');
+confirm('confirmation-popup');
 
 
 // functional style console.log
@@ -24,19 +27,22 @@ function computer(interactions) {
     let navClass = 'nav';
     let buttonClass = navClass + '__button';
     let renameButtonClass = buttonClass + '--rename';
-    let renameCancelButtonClass = buttonClass + '--rename-cancel';
     let removeButtonClass = buttonClass + '--remove';
+    let removalConfirmationClass = 'removal-confirmation';
+    let removalConfirmationMessageClass = removalConfirmationClass + '__message';
 
     let model = createGroup(modelDefinition);
     model.inject({
             initialFiles$: Rx.Observable.just(
-                [ 'file1.txt', 'file2.jpg', 'file3.doc' ]
+                Array.from(new Array(10), (value, index) =>
+                    `file${index+1}.${[ 'txt', 'doc', 'jpg' ][Math.floor(Math.random() * 3)]}`
+                )
                     .map((fileName) => ({
                         fileName,
                         uuid: uuid(),
                         selected: !!Math.round(Math.random())
                     }))
-            ),
+            ).shareReplay(1),
             selectedOptions$: interactions.get(`.${listClass}`, 'selectedOptions')
                 .map(({ detail }) => detail)
                 .map((options) =>
@@ -45,8 +51,12 @@ function computer(interactions) {
                     )
                 ),
             renameButtonClick$: interactions.get(`.${renameButtonClass}`, 'click'),
-            renameCancelButtonClick$: interactions.get(`.${renameCancelButtonClass}`, 'click'),
             removeButtonClick$: interactions.get(`.${removeButtonClass}`, 'click'),
+            removalConfirmed$: interactions.get(`.${removalConfirmationClass}`, 'confirm')
+                .map(({ detail }) => detail)
+                .shareReplay(1),
+            removalCanceled$: interactions.get(`.${removalConfirmationClass}`, 'cancel')
+                .map(({ detail }) => detail),
             fileNameChange$: interactions.get(`.${listItemClass}`, 'name')
                 .map(({ detail, target }) => ({
                     uuid: target.id,
@@ -60,7 +70,8 @@ function computer(interactions) {
         model.files$,
         model.renameMode$,
         model.anyFileSelected$,
-        (files, renameMode, anyFileSelected) =>
+        model.removalConfirmationVisible$,
+        (files, renameMode, anyFileSelected, removalConfirmationVisible) =>
             h('div', [
                 h('div', {
                     className: `${navClass}`
@@ -94,8 +105,29 @@ function computer(interactions) {
                         })
                     )
                 ))
-            ])
-        );
+            ].concat(
+                removalConfirmationVisible ? [ h('confirmation-popup', {
+                    className: `${removalConfirmationClass}`,
+                    key: 'files-removal-confirmation-popup',
+                    messages: {
+                        confirm: 'Delete',
+                        cancel: 'Cancel'
+                    }
+                }, [
+                    h('p', {
+                        className: `${removalConfirmationMessageClass}`,
+                    }, dedent`Delete selected files?
+                    This operation cannot be undone!`),
+                    h('ul', files
+                        .filter(({ selected }) => selected)
+                        .map(({ fileName }) =>
+                            h('li', fileName)
+                        )
+                    )
+                ])
+            ] : [ ])
+        )
+    );
 }
 
 export default function fileManagerApp(dom) {

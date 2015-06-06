@@ -2,7 +2,7 @@ import { Rx } from 'cyclejs';
 
 
 export default {
-    files$: (selectedOptions$, initialFiles$, files$, fileNameChange$) =>
+    files$: (selectedOptions$, initialFiles$, files$, fileNameChange$, removalConfirmed$) =>
         Rx.Observable.merge(
             selectedOptions$
                 .withLatestFrom(
@@ -26,6 +26,14 @@ export default {
                             }) : file
                         )
                 ),
+            removalConfirmed$
+                .withLatestFrom(
+                    files$,
+                    (remove, files) =>
+                        files.filter(({ selected }) =>
+                            !selected
+                        )
+                ),
             initialFiles$
         ).distinctUntilChanged((files) =>
             JSON.stringify(files)
@@ -37,11 +45,21 @@ export default {
             )
             .startWith(false)
             .distinctUntilChanged(),
-    anyFileSelected$: (selectedOptions$) =>
-        selectedOptions$
-            .map((options) => !!options.length)
+    anyFileSelected$: (files$) =>
+        files$
+            .map((files) => !!files.filter(({ selected }) => selected).length)
             .startWith(false)
-            .distinctUntilChanged()
+            .distinctUntilChanged(),
+    removalConfirmationVisible$: (removeButtonClick$, removalConfirmed$, removalCanceled$) =>
+        Rx.Observable.merge(
+            Rx.Observable.merge(
+                removalConfirmed$,
+                removalCanceled$
+            ).map(() => false),
+            removeButtonClick$.map(() => true)
+        ).startWith(false)
+        .distinctUntilChanged()
+
 };
 
 //

@@ -35,22 +35,17 @@ export default {
     selectedOptions$: (options$) =>
         options$
             .map((options) =>
-                options.filter((option) =>
-                    !!option.selected
-                )
+                options.filter(({ selected }) => selected)
             )
             .distinctUntilChanged((selectedOptions) =>
                 JSON.stringify(selectedOptions.map(({ id }) => id))
             )
             .map((options) =>
-                options.map(({ element }) =>
-                    element
-                )
+                options.map(({ element }) => element)
             ),
     allSelected$: (options$) =>
         options$.map((options) =>
-            options.every((option) =>
-                option.selected
-            )
+            !!options.length && options.every(({ selected }) => selected)
         )
+        .distinctUntilChanged()
 };
