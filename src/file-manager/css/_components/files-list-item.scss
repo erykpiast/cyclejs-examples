@@ -1,8 +1,6 @@
 .files-list-item {
-    $buttons-space: .5em;
-    $input-offset: 4px; // to make text indent equal for label end rename form
-    
-    height: 2em;
+    height: $file-list-item-height;
+    line-height: $file-list-item-height;
     
     &:before,
     &__rename-form,
@@ -20,21 +18,6 @@
     &__label {
         // make text indent equal for label end rename form
         margin-left: $input-offset;
-    }
-    
-    &__rename-form {
-        .file-rename-form__input {
-            $border-width: 2px;
-            
-            // make text indent equal for label end rename form
-            margin-left: 0;
-            border-width: $border-width;
-            padding-left: $input-offset - $border-width;
-            
-            margin-right: $buttons-space; // pull buttons
-            
-            max-width: 8em;
-        }
     }
     
     &__button--rename-cancel {

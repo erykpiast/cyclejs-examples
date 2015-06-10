@@ -3,7 +3,7 @@
 export default {
     options$: (children$, change$, selectAll$, options$) =>
         change$.withLatestFrom(
-            options$,
+            options$.delay(1),
             (change, options) =>
                 options.map(({ element, id, selected }) => ({
                     id,
@@ -15,7 +15,7 @@ export default {
         )
         .merge(
             selectAll$.withLatestFrom(
-                options$,
+                options$.delay(1),
                 (selected, options) =>
                     options.map(({ element, id }) => ({
                         id,

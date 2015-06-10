@@ -1,8 +1,9 @@
 import { Rx } from 'cyclejs';
+import { v1 as uuid } from 'uuid';
 
 
 export default {
-    files$: (selectedOptions$, initialFiles$, files$, fileNameChange$, removalConfirmed$) =>
+    files$: (selectedOptions$, initialFiles$, files$, fileNameChange$, removalConfirmed$, addingNewConfirmed$) =>
         Rx.Observable.merge(
             selectedOptions$
                 .withLatestFrom(
@@ -34,10 +35,25 @@ export default {
                             !selected
                         )
                 ),
+            addingNewConfirmed$
+                .withLatestFrom(
+                    files$,
+                    (newName, files) =>
+                        [{
+                            fileName: newName,
+                            uuid: uuid(),
+                            selected: true
+                        }].concat(files)
+                ),
             initialFiles$
         ).distinctUntilChanged((files) =>
             JSON.stringify(files)
         ),
+    anyFileSelected$: (files$) =>
+        files$
+            .map((files) => !!files.filter(({ selected }) => selected).length)
+            .startWith(false)
+            .distinctUntilChanged(),
     renameMode$: (renameButtonClick$) =>
         renameButtonClick$
             .scan(false, (previous) =>
@@ -45,11 +61,16 @@ export default {
             )
             .startWith(false)
             .distinctUntilChanged(),
-    anyFileSelected$: (files$) =>
-        files$
-            .map((files) => !!files.filter(({ selected }) => selected).length)
-            .startWith(false)
-            .distinctUntilChanged(),
+    // mode can be created by factory function, but what about this cyclejs-group DI based on function parameters names?
+    addingNewMode$: (addNewButtonClick$, addingNewConfirmed$, addingNewCanceled$) =>
+        Rx.Observable.merge(
+            Rx.Observable.merge(
+                addingNewConfirmed$,
+                addingNewCanceled$
+            ).map(() => false),
+            addNewButtonClick$.map(() => true)
+        ).startWith(false)
+        .distinctUntilChanged(),
     removalConfirmationVisible$: (removeButtonClick$, removalConfirmed$, removalCanceled$) =>
         Rx.Observable.merge(
             Rx.Observable.merge(

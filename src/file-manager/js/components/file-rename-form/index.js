@@ -1,7 +1,6 @@
 import { registerCustomElement, h, Rx } from 'cyclejs';
+import FocusHook from 'cyclejs/node_modules/virtual-dom/virtual-hyperscript/hooks/focus-hook';
 import createGroup from 'cyclejs-group';
-
-import modelDefinition from './model';
 
 
 export default function createFileRenameFormElement(tagName) {
@@ -11,10 +10,16 @@ export default function createFileRenameFormElement(tagName) {
     let applyButtonClass = buttonClass + '--apply';
 
     registerCustomElement(tagName, (interactions, properties) => {
-        let model = createGroup(modelDefinition);
+        let model = createGroup({
+            value$: (initialValue$, apply$, input$) =>
+                apply$.withLatestFrom(
+                    input$.merge(initialValue$),
+                    (apply, input) => input
+                ).merge(initialValue$)
+        });
 
         model.inject({
-            initialValue$: properties.get('value'),
+            initialValue$: properties.get('value').take(1),
             apply$: interactions.get(`.${formClass}`, 'submit')
                 .tap((e) => e.preventDefault()),
             input$: interactions.get(`.${inputClass}`, 'input')
@@ -30,7 +35,8 @@ export default function createFileRenameFormElement(tagName) {
                     h('input', {
                         className: `${inputClass}`,
                         type: 'text',
-                        value: value
+                        value: value,
+                        'focus-hook': new FocusHook()
                     }),
                     h('button', {
                         type: 'submit',

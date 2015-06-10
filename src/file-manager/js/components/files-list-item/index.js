@@ -1,10 +1,7 @@
 import { registerCustomElement, h, Rx } from 'cyclejs';
 import createGroup from 'cyclejs-group';
 
-import fileRenameForm from '../file-rename-form';
 import modelDefinition from './model';
-
-fileRenameForm('file-rename-form');
 
 
 export default function createFilesListItemElement(tagName) {
@@ -49,7 +46,7 @@ export default function createFilesListItemElement(tagName) {
         return {
             vtree$,
             name$: interactions.get(`.${renameFormClass}`, 'value')
-                .map(({ detail}) => detail)
+                .map(({ detail }) => detail)
         };
     });
 

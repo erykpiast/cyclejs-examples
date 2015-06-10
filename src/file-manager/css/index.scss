@@ -24,13 +24,43 @@ body {
 }
 
 .files {
-    
-    
+
+    .add-new {
+        height: $file-list-item-height;
+        line-height: $file-list-item-height;
+
+        & > * {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .file-rename-form__input {
+            margin-right: $buttons-space; // pull buttons
+        }
+
+        &__cancel {
+            margin-left: $buttons-space;
+            margin-top: 1.5px; // accidental offset
+        }
+    }
+
+    .file-rename-form__input {
+        $border-width: 2px;
+
+        // make text indent equal for label end rename form
+        margin-left: 0;
+        border-width: $border-width;
+        padding-left: $input-offset - $border-width;
+
+        margin-right: $buttons-space; // pull buttons
+
+        max-width: 8em;
+    }
 }
 
 .removal-confirmation {
     background-color: map-get($color, 'background');
-    
+
     &__message {
         margin-top: 0;
         white-space: pre-wrap;
